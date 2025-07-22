@@ -23,11 +23,7 @@ class CarLoanPage {
     }
   
     async getFirstMonthBreakup() {
-        // Wait for the table container to appear first
-        //await this.page.waitForSelector('//*[@id="year2025"]', { timeout: 50000 });
         await this.page.click(this.clickYear);
-
-
       
         // Wait for at least one row to appear
        // await this.page.waitForSelector('//*[@id="year2025"] tbody tr', { timeout: 50000 });
