@@ -7,8 +7,6 @@ class LoanCalculatorPage {
       await this.page.goto('https://emicalculator.net');
       await this.page.click('a[title="Loan Calculators, Widgets & Rates"]');
       await this.page.click('text=Loan Calculator');
-     // await this.page.waitForURL('**/loan-calculator/');
-      //await this.page.click('#emi-calc');
     }
   
     async validateUI(input) {
@@ -43,12 +41,7 @@ class LoanCalculatorPage {
         'Loan Amount Change': input['Change Loan Amount']
       };
     }
-
-
-
   }
-
-
   
   module.exports = { LoanCalculatorPage };
   

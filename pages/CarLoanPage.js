@@ -1,4 +1,4 @@
-class CarLoanPage {
+ class CarLoanPage {
     constructor(page) {
       this.page = page;
       this.loanTab = '#car-loan';
@@ -9,52 +9,73 @@ class CarLoanPage {
       this.clickYear = '//*[@id="year2025"]';
       this.amortizationTable = '#emibreakup tbody tr';
     }
-  
+    
+    // Method to navigate to the car loan calculator page
     async navigate() {
-      await this.page.goto('https://emicalculator.net');
-      await this.page.click(this.loanTab);
+        // Go to the 'https://emicalculator.net' website
+        await this.page.goto('https://emicalculator.net');
+
+        // Click on the 'Loan' tab (assuming this is how you select a car loan section)
+        await this.page.click(this.loanTab);
     }
-  
-    async fillLoanDetails({ loanAmount, interestRate, tenure }) {
-      await this.page.fill(this.loanAmountInput, loanAmount.toString());
-      await this.page.fill(this.interestRateInput, interestRate.toString());
-      await this.page.fill(this.loanTenureInput, tenure.toString());
-      await this.page.click(this.triggerArea); // Trigger calculation
+
+    // Method to fill in loan details: loan amount, interest rate, and tenure
+        async fillLoanDetails({ loanAmount, interestRate, tenure }) {
+        // Fill the loan amount field with the provided loan amount
+        await this.page.fill(this.loanAmountInput, loanAmount.toString());
+
+        // Fill the interest rate field with the provided interest rate
+        await this.page.fill(this.interestRateInput, interestRate.toString());
+
+        // Fill the tenure field with the provided loan tenure (in years)
+        await this.page.fill(this.loanTenureInput, tenure.toString());
+
+        // Click the trigger area to perform the loan calculation (e.g., a button to calculate EMI)
+        await this.page.click(this.triggerArea); 
     }
-  
+
+    // Method to get the breakup of the first month's EMI (Principal and Interest)
     async getFirstMonthBreakup() {
+        // Click on the 'Year' tab to expand the loan breakup table (for showing monthly breakdown)
         await this.page.click(this.clickYear);
-      
-        // Wait for at least one row to appear
-       // await this.page.waitForSelector('//*[@id="year2025"] tbody tr', { timeout: 50000 });
-      
-       //const firstRow = this.page.locator('//*[@id="year2025"]/tbody/tr').first();
-       //const firstRow = this.page.locator('#year2025').first();
 
-      return {
-          Month: await this.page.locator("//td[normalize-space()='Jul']").first().textContent(),
-          Principal: await this.page.locator('//*[@id="monthyear2025"]/td/div/table/tbody/tr[1]/td[2]').textContent(),
-          Interest: await this.page.locator('//*[@id="monthyear2025"]/td/div/table/tbody/tr[1]/td[3]').textContent()
-      };
-      }
-
-      async validateEMICalculation() {
-        await this.page.waitForSelector('#emitotalamount');
-        return await this.page.locator('#emitotalamount').isVisible();
-      }
-     
-      async checkUIElements() {
+        // Return an object containing the Month, Principal, and Interest for the first month
         return {
-          loanAmountVisible: await this.page.locator(this.loanAmountInput).isVisible(),
-          interestRateVisible: await this.page.locator(this.interestRateInput).isVisible(),
-          tenureVisible: await this.page.locator(this.loanTenureInput).isVisible()
+            // Extract the month ('Jul') from the table (or whatever the default month is)
+            Month: await this.page.locator("//td[normalize-space()='Jul']").first().textContent(),
+
+            // Extract the Principal payment for the first month from the table
+            Principal: await this.page.locator('//*[@id="monthyear2025"]/td/div/table/tbody/tr[1]/td[2]').textContent(),
+
+            // Extract the Interest payment for the first month from the table
+            Interest: await this.page.locator('//*[@id="monthyear2025"]/td/div/table/tbody/tr[1]/td[3]').textContent()
         };
-      }
-      
+    }
+zz
+    // Method to validate if the EMI calculation is visible on the page
+    async validateEMICalculation() {
+        // Wait for the EMI total amount element to be visible on the page
+        await this.page.waitForSelector('#emitotalamount');
 
+        // Return whether the EMI total amount element is visible on the page
+        return await this.page.locator('#emitotalamount').isVisible();
+    }
 
-      
-  }
-  
-  module.exports = { CarLoanPage };
-  
+    // Method to check if key UI elements (Loan Amount, Interest Rate, Tenure) are visible
+    async checkUIElements() {
+        // Return an object with the visibility status of the key UI elements (input fields)
+        return {
+            // Check if the loan amount input field is visible on the page
+            loanAmountVisible: await this.page.locator(this.loanAmountInput).isVisible(),
+
+            // Check if the interest rate input field is visible on the page
+            interestRateVisible: await this.page.locator(this.interestRateInput).isVisible(),
+
+            // Check if the tenure input field is visible on the page
+            tenureVisible: await this.page.locator(this.loanTenureInput).isVisible()
+        };
+    }
+}
+
+// Export the CarLoanPage class to be used in test scripts
+module.exports = { CarLoanPage };
