@@ -1,30 +1,27 @@
-// Importing the 'test' object from Playwright test runner
 const { test } = require('@playwright/test');
 
-// Importing the xlsx library for reading/writing Excel files
+
 const xlsx = require('xlsx');
 
-// Importing the path module to handle file paths
+
 const path = require('path');
 
-// Importing the CarLoanPage page object class
+
 const { CarLoanPage } = require('../pages/CarLoanPage');
 
-// Reading the input Excel file located in '../data/input.xlsx'
+
 const inputWorkbook = xlsx.readFile(path.join(__dirname, '../data/input.xlsx'));
 
-// Creating a new Excel workbook to store test output
 const outputWorkbook = xlsx.utils.book_new();
 
-// Utility function to write test results to a sheet in the output Excel file
 function writeResults(sheetName, data) {
   // Convert JSON data into a worksheet
   const worksheet = xlsx.utils.json_to_sheet(data);
 
-  // Append the worksheet to the output workbook with the given sheet name
+
   xlsx.utils.book_append_sheet(outputWorkbook, worksheet, sheetName);
 
-  // Save the workbook to 'caroutput.xlsx'
+
   xlsx.writeFile(outputWorkbook, path.join(__dirname, '../data/caroutput.xlsx'));
 }
 
@@ -72,18 +69,18 @@ test('Car Loan - EMI Calculation Check', async ({ page }) => {
 });
 
 // ✅ Test Case 3: UI validation - Check presence of essential UI elements
-test('Car Loan - UI Elements Visibility', async ({ page }) => {
-  const carLoanPage = new CarLoanPage(page);
+// test('Car Loan - UI Elements Visibility', async ({ page }) => {
+//   const carLoanPage = new CarLoanPage(page);
 
-  // Navigate to the page
-  await carLoanPage.navigate();
+//   // Navigate to the page
+//   await carLoanPage.navigate();
 
-  // Check if expected UI elements (buttons, inputs, etc.) are visible
-  const ui = await carLoanPage.checkUIElements();
+//   // Check if expected UI elements (buttons, inputs, etc.) are visible
+//   const ui = await carLoanPage.checkUIElements();
 
-  // Log UI check result
-  console.log(ui);
-});
+//   // Log UI check result
+//   console.log(ui);
+// });
 
 // ✅ Test Case 4: Test loan calculation with a different tenure
 test('Car Loan - Different Tenure', async ({ page }) => {

@@ -17,6 +17,7 @@
 
         // Click on the 'Loan' tab (assuming this is how you select a car loan section)
         await this.page.click(this.loanTab);
+        await this.page.waitForTimeout(2000);
     }
 
     // Method to fill in loan details: loan amount, interest rate, and tenure

@@ -23,7 +23,7 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: [['allure-playwright'],['html']],//['allure-playwright',{outputFolder : "allure-results"}]],
+  reporter: [['html']],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   outputDir: 'test-results/',// STore videos and other files here
   use: {
@@ -35,24 +35,25 @@ export default defineConfig({
     headless: true, // Run with UI
     video: 'on', //Record video for all tests || 'retain-on-failure'
     screenshot: 'on', // 'on' || 'off' also there || 'only-on-failure'
+    ignoreHTTPSErrors:true, // Ignore HTTPS errors
   },
 
   /* Configure projects for major browsers */
   projects: [
-    {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
-    },
+  //   {
+  //     name: 'chromium',
+  //     use: { ...devices['Desktop Chrome'] },
+  //   },
 
-    {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
-    },
+  //   {
+  //     name: 'firefox',
+  //     use: { ...devices['Desktop Firefox'] },
+  //   },
 
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
-   },
+  //   {
+  //     name: 'webkit',
+  //     use: { ...devices['Desktop Safari'] },
+  //  },
     
     /* Test against mobile viewports. */
     // {
@@ -69,10 +70,10 @@ export default defineConfig({
       // name: 'Microsoft Edge',
      //  use: { ...devices['Desktop Edge'], channel: 'msedge' },
      //},
-    //  {
-    //    name: 'Google Chrome',
-    //    use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    //  },
+     {
+       name: 'Google Chrome',
+       use: { ...devices['Desktop Chrome'], channel: 'chrome' },
+     },
   ],
 
   /* Run your local dev server before starting the tests */
